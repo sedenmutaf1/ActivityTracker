@@ -5,10 +5,6 @@ from typing import Dict
 class SessionStartRequest(BaseModel):
     session_duration: int  # Duration in minutes
 
-# Session start response (response after starting a session)
-class SessionStartResponse(BaseModel):
-    session_id: str  # Unique identifier for the session
-    status: str  # "started" or error message
 
 # Session end request (ending the session)
 class SessionEndRequest(BaseModel):

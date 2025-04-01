@@ -1,0 +1,84 @@
+/* A full-page gradient background */
+.loginSignupContainer {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #D4145A, #FBB03B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* The white card in the center */
+.loginSignupCard {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 350px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* The container that holds the "Login" and "Signup" buttons */
+.tabContainer {
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+}
+
+/* Common styles for both tab buttons */
+.tabButton {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  margin-right: 4px;
+  transition: all 0.3s ease;
+}
+
+.tabButton.active {
+  background: linear-gradient(to right, #b4004e, #ff4c70);
+  color: #fff;
+}
+
+.tabButton.inactive {
+  background: #f5f5f5;
+  color: #000;
+}
+
+/* Reusable input field style */
+.formControl {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.75rem;
+}
+
+/* The button used for Login / Signup */
+.loginSignUpBtn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(to right, #b4004e, #ff4c70);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+/* Simple link styles */
+.forgotLink {
+  color: #D4145A;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.switchLink {
+  color: #D4145A;
+  cursor: pointer;
+}

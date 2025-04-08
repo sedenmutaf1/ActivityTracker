@@ -1,0 +1,45 @@
+
+.dashboardContainer {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #D4145A, #FBB03B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* White card in the center */
+.dashboardCard {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 400px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Heading style (optional) */
+.dashboardCard h1 {
+  margin-bottom: 1.5rem;
+}
+
+/* Button styles consistent with the previous gradient */
+.dashboardButton {
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background: linear-gradient(to right, #b4004e, #ff4c70);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Optional hover effect */
+.dashboardButton:hover {
+  opacity: 0.9;
+}

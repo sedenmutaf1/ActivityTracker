@@ -1,48 +1,95 @@
 import React, { useState } from "react";
-import "./LoginSignupForm.css";  // Import the CSS file here
+import { useNavigate } from "react-router-dom";
+import "./LoginSignupForm.css";  // Optional: Your CSS
 
 function LoginSignupForm() {
   const [activeTab, setActiveTab] = useState("login");
-  const [loginEmail, setLoginEmail] = useState("");
+
+  // ----- Login fields -----
+  const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+
+  // ----- Signup fields -----
+  const [signupUsername, setSignupUsername] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
 
-  // Example: replace with your real FastAPI endpoint
+  // Adjust to match your FastAPI server URL
   const BASE_URL = "http://127.0.0.1:8000";
+
+  const navigate = useNavigate();
 
   // Handle the login form submission
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in with:", { loginEmail, loginPassword });
-    // Here you’d typically do:
-    // const response = await fetch(`${BASE_URL}/users/login`, { ... })
+    try {
+      const response = await fetch(`${BASE_URL}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: loginUsername,
+          password: loginPassword
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Login failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Login successful:", data);
+      // Navigate to the dashboard page
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
 
   // Handle the signup form submission
   const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("Signing up with:", { signupEmail, signupPassword });
-    // const response = await fetch(`${BASE_URL}/users/register`, { ... })
+    try {
+      const response = await fetch(`${BASE_URL}/users/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: signupUsername,
+          email: signupEmail,
+          password: signupPassword,
+          created_at: new Date().toISOString()  // Provide current timestamp
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Signup failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Signup successful:", data);
+      // e.g. switch to login tab automatically
+      setActiveTab("login");
+    } catch (err) {
+      console.error("Signup error:", err);
+    }
   };
 
   return (
     <div className="loginSignupContainer">
       <div className="loginSignupCard">
         <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
-          Login Form
+          {activeTab === "login" ? "Login Form" : "Signup Form"}
         </h2>
 
-        {/* Tabs for Login / Signup */}
+        {/* Tabs for switching between Login and Signup */}
         <div className="tabContainer">
           <button
-            className={`tabButton ${activeTab === "login" ? "active" : "inactive"}`}
+            className={`tabButton ${activeTab === "login" ? "active" : ""}`}
             onClick={() => setActiveTab("login")}
           >
             Login
           </button>
           <button
-            className={`tabButton ${activeTab === "signup" ? "active" : "inactive"}`}
+            className={`tabButton ${activeTab === "signup" ? "active" : ""}`}
             onClick={() => setActiveTab("signup")}
           >
             Signup
@@ -52,14 +99,14 @@ function LoginSignupForm() {
         {/* LOGIN FORM */}
         {activeTab === "login" && (
           <form onSubmit={handleLogin}>
-            <label htmlFor="loginEmail">Email Address</label>
+            <label htmlFor="loginUsername">Username</label>
             <input
-              id="loginEmail"
+              id="loginUsername"
               className="formControl"
-              type="email"
-              placeholder="Enter your email"
-              value={loginEmail}
-              onChange={(e) => setLoginEmail(e.target.value)}
+              type="text"
+              placeholder="Enter your username"
+              value={loginUsername}
+              onChange={(e) => setLoginUsername(e.target.value)}
               required
             />
 
@@ -74,31 +121,26 @@ function LoginSignupForm() {
               required
             />
 
-            <div style={{ textAlign: "right", marginBottom: "1rem" }}>
-              <a href="#" className="forgotLink">
-                Forgot password?
-              </a>
-            </div>
-
             <button className="loginSignUpBtn" type="submit">
               Login
             </button>
-
-            <div style={{ textAlign: "center", marginTop: "1rem" }}>
-              Not a member?{" "}
-              <span
-                className="switchLink"
-                onClick={() => setActiveTab("signup")}
-              >
-                Signup now
-              </span>
-            </div>
           </form>
         )}
 
         {/* SIGNUP FORM */}
         {activeTab === "signup" && (
           <form onSubmit={handleSignup}>
+            <label htmlFor="signupUsername">Username</label>
+            <input
+              id="signupUsername"
+              className="formControl"
+              type="text"
+              placeholder="Create a username"
+              value={signupUsername}
+              onChange={(e) => setSignupUsername(e.target.value)}
+              required
+            />
+
             <label htmlFor="signupEmail">Email Address</label>
             <input
               id="signupEmail"
@@ -124,16 +166,6 @@ function LoginSignupForm() {
             <button className="loginSignUpBtn" type="submit">
               Sign Up
             </button>
-
-            <div style={{ textAlign: "center", marginTop: "1rem" }}>
-              Already a member?{" "}
-              <span
-                className="switchLink"
-                onClick={() => setActiveTab("login")}
-              >
-                Login now
-              </span>
-            </div>
           </form>
         )}
       </div>

@@ -12,19 +12,13 @@ router = APIRouter()
 @router.websocket("/ws/session/{session_id}/track")
 async def track_activity(
     websocket: WebSocket,
-    session_id: str,
-    redis_conn: redis.Redis = Depends(get_redis_connection)
+    session_id: str
 ):
-    """
-    WebSocket endpoint to stream real-time tracking data.
-    Continuously sends mock activity data to the connected client
-    and stores it in Redis.
-    """
     await websocket.accept()
+    redis_conn = websocket.app.state.redis
 
     try:
         while True:
-            # Simulate real-time gaze data (replace with actual logic)
             activity_data = ActivityData(
                 timestamp=datetime.now(timezone.utc),
                 gaze_direction="left",
@@ -32,26 +26,17 @@ async def track_activity(
                 blink_rate=1.5
             )
 
-            # Convert Pydantic model to dict
-            activity_data_dict = activity_data.model_dump()
+            activity_data_dict = json.loads(activity_data.model_dump_json())
 
-            # Redis key for storing the latest activity data
             session_key = f"session:{session_id}:activity"
-
-            # Store the activity data in Redis (on a background thread)
             await asyncio.to_thread(redis_conn.set, session_key, json.dumps(activity_data_dict))
-            # Optional: Set a TTL (Time To Live) if desired
-            await asyncio.to_thread(redis_conn.expire, session_key, 60)  # 60 seconds
+            await asyncio.to_thread(redis_conn.expire, session_key, 60)
 
-            # Send data to the WebSocket client
             await websocket.send_json(activity_data_dict)
-
-            # Introduce a short delay so it doesn't spam in a tight loop
             await asyncio.sleep(1.0)
 
     except WebSocketDisconnect:
         print(f"Client disconnected from session {session_id}")
-
 @router.get("/session/{session_id}/latest_activity", status_code=status.HTTP_200_OK)
 async def get_latest_activity(
     session_id: str,

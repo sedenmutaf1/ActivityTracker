@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages.">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/HomeButton.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/HomeButton.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.jsx" afterDir="false" />
+    <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="Old sessions page is implemented.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/tracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/tracking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OldSessions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -169,7 +161,7 @@
       <workItem from="1744119571785" duration="16347000" />
       <workItem from="1744223922320" duration="11000" />
       <workItem from="1744224439126" duration="12233000" />
-      <workItem from="1744655115309" duration="3792000" />
+      <workItem from="1744655115309" duration="8397000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -211,7 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744647838043</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Old sessions page is implemented.">
+      <option name="closed" value="true" />
+      <created>1744659072574</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1744659072574</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,7 +237,8 @@
     <MESSAGE value="Update README.md" />
     <MESSAGE value="Backend frontend connection for user login and user register. Template route for user dashboard." />
     <MESSAGE value="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages." />
-    <option name="LAST_COMMIT_MESSAGE" value="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages." />
+    <MESSAGE value="Old sessions page is implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Old sessions page is implemented." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ActivityTracker$ActivityTracker.coverage" NAME="ActivityTracker Coverage Results" MODIFIED="1744121226432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserMedia } from "./useUserMedia";
 import "./OngoingSession.css";
@@ -14,19 +14,49 @@ function getSessionInfo() {
 export default function OngoingSession() {
   const [timeLeft, setTimeLeft] = useState(null);
   const [sessionEnded, setSessionEnded] = useState(false);
+  const videoRef = useRef(null);
   const navigate = useNavigate();
   const sessionInfo = getSessionInfo();
   const { stream, error } = useUserMedia({ video: true });
 
   const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const secs = (seconds % 60)
-      .toString()
-      .padStart(2, "0");
+    const mins = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
     return `${mins}:${secs}`;
   };
+
+  useEffect(() => {
+    if (!sessionInfo?.session_id) return;
+
+    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/session/${sessionInfo.session_id}/track`);
+
+    socket.onopen = () => {
+      console.log("📡 Activity tracking WebSocket connected");
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        console.log("🧠 Activity Data:", data);
+        // Optional: setActivityState(data); if you want to show it in the UI
+      } catch (err) {
+        console.error("Failed to parse activity data:", err);
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket closed");
+    };
+
+    socket.onerror = (err) => {
+      console.error("WebSocket error:", err);
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [sessionInfo?.session_id]);
+
 
   // Calculate time left on mount
   useEffect(() => {
@@ -47,7 +77,7 @@ export default function OngoingSession() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          session_id: sessionInfo?.session_id,
+          session_id: sessionInfo.session_id,
         }),
       });
 
@@ -114,6 +144,7 @@ export default function OngoingSession() {
                   if (video && stream && video.srcObject !== stream) {
                     video.srcObject = stream;
                   }
+                  videoRef.current = video;
                 }}
               />
             )}
@@ -124,7 +155,6 @@ export default function OngoingSession() {
         ) : (
           <>
             <h1>✅ Session complete!</h1>
-
           </>
         )}
       </div>

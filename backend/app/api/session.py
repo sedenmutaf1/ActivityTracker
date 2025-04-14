@@ -18,27 +18,29 @@ async def start_session(
 ):
     """
     Start a new session for a user.
-    Returns HTTP 201 and a simple message if successful.
+    Returns HTTP 201 and session details if successful.
     """
     session_id = str(uuid.uuid4())
+    start_time = datetime.now(timezone.utc).isoformat()
+
     session_data = {
         "user_id": request.user_id,
         "session_duration": request.session_duration,
-        "start_time": datetime.now(timezone.utc).isoformat(),
+        "start_time": start_time,
         "status": "active",
-        "focus_time": 0,
-        "distraction_time": 0,
-        "activity_data": {}
     }
 
     # Store session in Redis
     redis_conn.set(f"session:{session_id}", json.dumps(session_data))
 
+    # Return full session info (same structure as stored)
     return {
         "message": "Session started successfully",
-        "start_time": datetime.now(timezone.utc).isoformat(),
         "session_id": session_id,
-        "session_duration": request.session_duration
+        "user_id": request.user_id,
+        "start_time": start_time,
+        "session_duration": request.session_duration,
+        "status": "active"
     }
 
 
@@ -135,6 +137,7 @@ async def get_user_sessions(
 ):
     """
     Retrieve all sessions belonging to a specific user.
+    Returns sessions in the same format as /session/start.
     """
     keys = redis_conn.keys("session:*")
     user_sessions = []
@@ -143,8 +146,16 @@ async def get_user_sessions(
         raw_data = redis_conn.get(key)
         if raw_data:
             session_data = json.loads(raw_data.decode("utf-8"))
-            if session_data["user_id"] == user_id:
-                user_sessions.append(session_data)
+            if session_data.get("user_id") == user_id:
+                session_id = key.decode("utf-8").split("session:")[-1]
+                formatted_session = {
+                    "session_id": session_id,
+                    "user_id": session_data.get("user_id"),
+                    "start_time": session_data.get("start_time"),
+                    "session_duration": session_data.get("session_duration"),
+                    "status": session_data.get("status"),
+                }
+                user_sessions.append(formatted_session)
 
     return {
         "message": f"Sessions for user {user_id} retrieved successfully",

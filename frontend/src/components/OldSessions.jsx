@@ -58,7 +58,11 @@ export default function OldSessions() {
                 {session.status === "active" && (
                   <button
                     className="resumeButton"
-                    onClick={() => navigate("/session")}
+                    onClick={() => {
+                      localStorage.setItem("sessionInfo", JSON.stringify(session));
+                      navigate("/session");
+                    }
+                  }
                   >
                     Resume
                   </button>

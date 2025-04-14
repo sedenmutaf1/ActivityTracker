@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="Update README.md">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
+    <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="Backend frontend connection for user login and user register. Template route for user dashboard.">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/useUserMedia.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models/session_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models/session_models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginSignupForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginSignupForm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,8 +29,8 @@
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
         <option value="package.json" />
-        <option value="JavaScript File" />
         <option value="Python Script" />
+        <option value="JavaScript File" />
         <option value="CSS File" />
       </list>
     </option>
@@ -63,6 +68,7 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
@@ -72,7 +78,8 @@
     "nodejs_interpreter_path": "C:/Users/seden/AppData/Roaming/JetBrains/PyCharm2024.3/node/versions/22.14.0/node",
     "nodejs_package_manager_path": "npm",
     "npm.build.executor": "Run",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.selected.configurable": "preferences.sourceCode.JavaScript",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.3.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -158,7 +165,9 @@
       <workItem from="1743503409876" duration="3089000" />
       <workItem from="1743511166373" duration="3772000" />
       <workItem from="1743515037342" duration="17443000" />
-      <workItem from="1744119571785" duration="5105000" />
+      <workItem from="1744119571785" duration="16347000" />
+      <workItem from="1744223922320" duration="11000" />
+      <workItem from="1744224439126" duration="11585000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -184,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743540609422</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Backend frontend connection for user login and user register. Template route for user dashboard.">
+      <option name="closed" value="true" />
+      <created>1744125241845</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744125241845</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,7 +225,8 @@
     <MESSAGE value="First commit" />
     <MESSAGE value="Continued" />
     <MESSAGE value="Update README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README.md" />
+    <MESSAGE value="Backend frontend connection for user login and user register. Template route for user dashboard." />
+    <option name="LAST_COMMIT_MESSAGE" value="Backend frontend connection for user login and user register. Template route for user dashboard." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ActivityTracker$ActivityTracker.coverage" NAME="ActivityTracker Coverage Results" MODIFIED="1744121226432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />

@@ -3,7 +3,9 @@ from typing import Dict
 
 # Session start request (start a new session)
 class SessionStartRequest(BaseModel):
-    session_duration: int  # Duration in minutes
+    user_id: str
+    session_duration: int
+
 
 
 # Session end request (ending the session)

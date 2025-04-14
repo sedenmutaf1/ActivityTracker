@@ -6,14 +6,14 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException, Depends, status
 import redis
-
+from backend.app.models.session_models import SessionEndRequest,SessionStartRequest,SessionReport
 from backend.app.utils.redis_utils import get_redis_connection
 
 router = APIRouter()
 
 @router.post("/session/start", status_code=status.HTTP_201_CREATED)
 async def start_session(
-    user_id: str,
+    request: SessionStartRequest,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
     """
@@ -22,7 +22,8 @@ async def start_session(
     """
     session_id = str(uuid.uuid4())
     session_data = {
-        "user_id": user_id,
+        "user_id": request.user_id,
+        "session_duration": request.session_duration,
         "start_time": datetime.now(timezone.utc).isoformat(),
         "status": "active",
         "focus_time": 0,
@@ -35,19 +36,21 @@ async def start_session(
 
     return {
         "message": "Session started successfully",
-        "session_id": session_id
+        "start_time": datetime.now(timezone.utc).isoformat(),
+        "session_id": session_id,
+        "session_duration": request.session_duration
     }
 
 
 @router.post("/session/end", status_code=status.HTTP_200_OK)
 async def end_session(
-    session_id: str,
+    request: SessionEndRequest,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
     """
     End an existing session and return its report.
     """
-    session_key = f"session:{session_id}"
+    session_key = f"session:{request.session_id}"
     raw_data = redis_conn.get(session_key)
 
     if not raw_data:
@@ -60,7 +63,7 @@ async def end_session(
 
     # Example report data
     report_data = {
-        "session_id": session_id,
+        "session_id": request.session_id,
         "focus_time": session_data.get("focus_time", 0),
         "distraction_time": session_data.get("distraction_time", 0),
         "activity_data": session_data.get("activity_data", {})

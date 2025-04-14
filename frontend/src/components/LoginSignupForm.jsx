@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./LoginSignupForm.css";  // Optional: Your CSS
+import "./LoginSignupForm.css";
 
 function LoginSignupForm() {
   const [activeTab, setActiveTab] = useState("login");
@@ -18,6 +18,8 @@ function LoginSignupForm() {
   const BASE_URL = "http://127.0.0.1:8000";
 
   const navigate = useNavigate();
+
+  localStorage.clear();
 
   // Handle the login form submission
   const handleLogin = async (e) => {
@@ -38,6 +40,7 @@ function LoginSignupForm() {
 
       const data = await response.json();
       console.log("Login successful:", data);
+      localStorage.setItem("userInfo", JSON.stringify(data));
       // Navigate to the dashboard page
       navigate("/dashboard");
     } catch (err) {

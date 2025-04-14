@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
+import HomeButton from "./HomeButton";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
@@ -10,6 +11,7 @@ function getUser() {
 }
 
 export default function Dashboard() {
+
   const navigate = useNavigate();
   const user = getUser();
 
@@ -48,6 +50,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboardContainer">
+      <HomeButton onClick={() => navigate("/dashboard")} />
       <div className="dashboardCard">
         <div className="userInfoCard">
           <img src="/img.png" alt="User Icon" className="userIcon" />
@@ -58,7 +61,7 @@ export default function Dashboard() {
 
         <h1>Welcome to Your Dashboard!</h1>
 
-        <button className="dashboardButton">Old Sessions</button>
+        <button className="dashboardButton" onClick={() => navigate("/oldsessions")}>Old Sessions</button>
 
         {!showDurationInput ? (
           <button className="dashboardButton" onClick={handleSessionRequest}>

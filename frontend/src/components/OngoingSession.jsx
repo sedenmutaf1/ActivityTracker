@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserMedia } from "./useUserMedia";
 import "./OngoingSession.css";
+import HomeButton from "./HomeButton";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
@@ -90,6 +91,7 @@ export default function OngoingSession() {
 
   return (
     <div className="ongoingSessionContainer">
+      <HomeButton onClick={() => navigate("/dashboard")} />
       <div className="ongoingSessionCard">
         {!sessionEnded ? (
           <>
@@ -122,9 +124,7 @@ export default function OngoingSession() {
         ) : (
           <>
             <h1>✅ Session complete!</h1>
-            <button className="dashboardButton" onClick={() => navigate("/dashboard")}>
-              Go to Dashboard
-            </button>
+
           </>
         )}
       </div>

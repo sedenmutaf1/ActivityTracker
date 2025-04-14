@@ -4,19 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="Backend frontend connection for user login and user register. Template route for user dashboard.">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/useUserMedia.js" afterDir="false" />
+    <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages.">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/HomeButton.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/HomeButton.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/api/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/models/session_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models/session_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginSignupForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginSignupForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,27 +63,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "FastAPI.ActivityTracker.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "C:/Users/seden/AppData/Roaming/JetBrains/PyCharm2024.3/node/versions/22.14.0/node",
-    "nodejs_package_manager_path": "npm",
-    "npm.build.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.sourceCode.JavaScript",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.3.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;FastAPI.ActivityTracker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/seden/AppData/Roaming/JetBrains/PyCharm2024.3/node/versions/22.14.0/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.JavaScript&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.3.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\seden\PycharmProjects\ActivityTracker\backend" />
@@ -167,7 +168,8 @@
       <workItem from="1743515037342" duration="17443000" />
       <workItem from="1744119571785" duration="16347000" />
       <workItem from="1744223922320" duration="11000" />
-      <workItem from="1744224439126" duration="11585000" />
+      <workItem from="1744224439126" duration="12233000" />
+      <workItem from="1744655115309" duration="3792000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -201,7 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744125241845</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages.">
+      <option name="closed" value="true" />
+      <created>1744647838043</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1744647838043</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,7 +236,8 @@
     <MESSAGE value="Continued" />
     <MESSAGE value="Update README.md" />
     <MESSAGE value="Backend frontend connection for user login and user register. Template route for user dashboard." />
-    <option name="LAST_COMMIT_MESSAGE" value="Backend frontend connection for user login and user register. Template route for user dashboard." />
+    <MESSAGE value="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages." />
+    <option name="LAST_COMMIT_MESSAGE" value="User login register complete. Session logic complete. App cycle complete. Slight changes to the style of the pages." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ActivityTracker$ActivityTracker.coverage" NAME="ActivityTracker Coverage Results" MODIFIED="1744121226432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />

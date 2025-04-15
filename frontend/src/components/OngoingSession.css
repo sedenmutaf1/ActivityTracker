@@ -1,77 +1,50 @@
 .ongoingSessionContainer {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, #D4145A, #FBB03B);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  animation: fadeIn 1s ease-in;
+  padding: 2rem;
+  background: linear-gradient(135deg, #D4145A, #FBB03B);
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .ongoingSessionCard {
-  background-color: #fff;
-  border-radius: 12px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
-  box-sizing: border-box;
-  animation: slideUp 0.6s ease-out;
-}
-
-.ongoingSessionCard h1 {
-  margin: 1rem 0;
+  position: relative;
 }
 
 .timerText {
-  font-family: monospace;
-  font-size: 1.5rem;
   margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
 }
 
 .timeDisplay {
-  display: inline-block;
-  min-width: 70px;
-  text-align: center;
-}
-
-.ongoingSessionCard video {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin: 1rem 0;
-  transition: opacity 0.3s ease;
-}
-
-.dashboardButton {
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  background: linear-gradient(to right, #b4004e, #ff4c70);
-  color: #fff;
+  font-size: 2rem;
   font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease, transform 0.2s ease;
+
 }
 
-.dashboardButton:hover {
-  transform: scale(1.03);
-  opacity: 0.95;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.videoWrapper video,
+.videoWrapper canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
 }

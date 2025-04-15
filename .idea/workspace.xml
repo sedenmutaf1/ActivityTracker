@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="Active sessions are available to go back and continue. Websocket connection is established for video stream.">
-      <change afterPath="$PROJECT_DIR$/backend/app/api/example.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/api/haarcascade_frontalface_default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/app/utils/image_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ActivityTracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ActivityTracker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/api/tracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/tracking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/utils/image_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/utils/image_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -206,7 +202,7 @@
       <workItem from="1744223922320" duration="11000" />
       <workItem from="1744224439126" duration="12233000" />
       <workItem from="1744655115309" duration="8599000" />
-      <workItem from="1744702261517" duration="12947000" />
+      <workItem from="1744702261517" duration="14575000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -264,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744663767676</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Active sessions are available to go back and continue. Websocket connection is established for video stream.">
+      <option name="closed" value="true" />
+      <created>1744755648767</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744755648767</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

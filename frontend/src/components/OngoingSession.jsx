@@ -158,7 +158,7 @@ export default function OngoingSession() {
 
       if (!response.ok) throw new Error(`Session failed: ${response.status}`);
 
-      // 🛑 STOP EVERYTHING
+
       if (socketRef.current) socketRef.current.close();
 
       setSessionEnded(true);
@@ -173,23 +173,22 @@ export default function OngoingSession() {
 
   //TIMER COUNTDOWN
   useEffect(() => {
-    if (timeLeft === null || timeLeft <= 0 || sessionEnded) return;
+    if (sessionEnded || timeLeft === null) return;
 
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
+        if (prevTime > 1) {
+          return prevTime - 1;
+        } else {
           clearInterval(interval);
-          (async () => {
-            await endSession();
-          })();
+          endSession();
           return 0;
         }
-        return prevTime - 1;
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft, sessionEnded, endSession]);
+  }, [sessionEnded, timeLeft, endSession]);
 
   //END SESSION BUTTON HANDLER
   const handleSessionEnd = (e) => {

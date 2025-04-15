@@ -3,6 +3,8 @@ import base64
 import numpy as np
 import cv2 as cv2
 import os
+import mediapipe as mp
+
 def decode_base64_image_from_json(json_data: str):
     try:
         data = json.loads(json_data)
@@ -21,20 +23,26 @@ def decode_base64_image_from_json(json_data: str):
         return None
 
 
+# Initialize Mediapipe face detection
+mp_face = mp.solutions.face_detection
+face_detector = mp_face.FaceDetection(model_selection=0, min_detection_confidence=0.5)
+
 def face_detection(frame):
+    # Convert image to RGB (as Mediapipe expects)
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # Process with Mediapipe
+    results = face_detector.process(rgb)
 
-    cascade_path = os.path.join(cv2.data.haarcascades, "haarcascade_frontalface_default.xml")
-    face_cascade = cv2.CascadeClassifier(cascade_path)
-
-    faces = face_cascade.detectMultiScale(
-        gray,
-        scaleFactor=1.1,
-        minNeighbors=5,
-        minSize=(30, 30)
-    )
-
-    # Convert the result into a serializable format (list of dicts)
-    face_list = [{"x": int(x), "y": int(y), "w": int(w), "h": int(h)} for (x, y, w, h) in faces]
-    return face_list
+    # Collect bounding boxes for detected faces
+    faces = []
+    if results.detections:
+        for detection in results.detections:
+            box = detection.location_data.relative_bounding_box
+            ih, iw, _ = frame.shape
+            x = int(box.xmin * iw)
+            y = int(box.ymin * ih)
+            w = int(box.width * iw)
+            h = int(box.height * ih)
+            faces.append({"x": x, "y": y, "w": w, "h": h})
+    return faces

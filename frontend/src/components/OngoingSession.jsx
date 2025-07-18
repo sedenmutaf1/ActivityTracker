@@ -226,6 +226,7 @@ export default function OngoingSession() {
             ) : (
               <div className="videoWrapper">
                 <video
+                style={{ transform: "scaleX(-1)" }}
                   autoPlay
                   muted
                   ref={(video) => {

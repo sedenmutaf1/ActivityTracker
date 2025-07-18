@@ -156,6 +156,9 @@ async def get_user_sessions(
                     "status": session_data.get("status"),
                 }
                 user_sessions.append(formatted_session)
+    
+    user_sessions.sort(key=lambda x: datetime.fromisoformat(x["start_time"].replace("Z", "+00:00")), reverse=True)
+
 
     return {
         "message": f"Sessions for user {user_id} retrieved successfully",

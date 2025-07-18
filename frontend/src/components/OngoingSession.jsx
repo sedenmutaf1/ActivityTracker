@@ -6,73 +6,61 @@ import HomeButton from "./HomeButton";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
-//GET SESSION INFO TO DISPLAY CORRECT SESSION
 function getSessionInfo() {
   const sessionInfo = localStorage.getItem("sessionInfo");
   return sessionInfo ? JSON.parse(sessionInfo) : null;
 }
 
 export default function OngoingSession() {
-
-  //USE STATES AND CALLED METHODS
   const [timeLeft, setTimeLeft] = useState(null);
   const [sessionEnded, setSessionEnded] = useState(false);
   const videoRef = useRef(null);
-  const canvasRef = useRef(null); // HIDDEN CANVAS FOR FRAME CAPTURE
-  const overlayCanvasRef = useRef(null); // VISIBLE CANVAS FOR FACE BOXES
+  const canvasRef = useRef(null); // Hidden frame capture canvas
+  const overlayCanvasRef = useRef(null); // Face box overlay
+  const gazeOverlayCanvasRef = useRef(null); // NEW: Fullscreen gaze overlay
   const navigate = useNavigate();
   const sessionInfo = getSessionInfo();
   const { stream, error } = useUserMedia({ video: true });
   const socketRef = useRef(null);
-  const [detectedFaces, setDetectedFaces] = useState([]);
+  const [detectedFace, setDetectedFace] = useState();
+  const [gazePoint, setGazePoint] = useState();
+  
 
-  //CONVERTS SECONDS TO MINUTES AND SECONDS FOR BETTER DISPLAY
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60).toString().padStart(2, "0");
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `${mins}:${secs}`;
   };
 
-  //ESTABLISHES WEBSOCKET CONNECTION AND RECEIVES FACE DETECTION DATA
   useEffect(() => {
-  if (!sessionInfo?.session_id) return;
+    if (!sessionInfo?.session_id) return;
 
-  const timeout = setTimeout(() => {
-    const socket = new WebSocket(`ws://127.0.0.1:8000/ws/session/${sessionInfo.session_id}/track`);
-    socketRef.current = socket;
+    const timeout = setTimeout(() => {
+      const socket = new WebSocket(`ws://127.0.0.1:8000/ws/session/${sessionInfo.session_id}/track`);
+      socketRef.current = socket;
 
-    socket.onopen = () => {
-      console.log("📡 Activity tracking WebSocket connected");
-    };
+      socket.onopen = () => console.log("📡 Activity tracking WebSocket connected");
 
-   socket.onmessage = (event) => {
-    try {
-      const data = JSON.parse(event.data);
-      if (data.type === "face_detection") {
-        setDetectedFaces(data.faces);
-      }
-    } catch (err) {
-      console.error("❌ Failed to parse activity data:", err);
-    }
-  };
+      socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          setDetectedFace(data.face);
+          setGazePoint(data.gaze);
+          
+        } catch (err) { 
+          console.error("❌ Failed to parse activity data:", err);
+        }
+      };
 
-    socket.onclose = () => {
-      console.log("WebSocket closed");
-    };
+      socket.onclose = () => console.log("WebSocket closed");
+      socket.onerror = (err) => console.error("WebSocket error:", err);
+    }, 300);
 
-    socket.onerror = (err) => {
-      console.error("WebSocket error:", err);
-    };
-  }, 300); // wait 300ms before connecting
+    return () => clearTimeout(timeout);
+  }, [sessionInfo?.session_id]);
 
-  return () => clearTimeout(timeout);
-}, [sessionInfo?.session_id]);
-
-
-  //CAPTURES VIDEO FRAMES FROM STREAM TO SEND OVER WEBSOCKET
   useEffect(() => {
     if (!stream || !videoRef.current || !canvasRef.current || !socketRef.current || sessionEnded) return;
-
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -100,7 +88,6 @@ export default function OngoingSession() {
               timestamp: Date.now(),
             })
           );
-
         }
       } catch (err) {
         console.error("📸 Frame capture/send failed:", err);
@@ -113,11 +100,11 @@ export default function OngoingSession() {
     };
   }, [stream, sessionEnded]);
 
-  //DISPLAY BOUNDING BOX AROUND DETECTED FACES
+  // Face box and gaze cloud on small video canvas
   useEffect(() => {
     const canvas = overlayCanvasRef.current;
     const video = videoRef.current;
-    if (!canvas || !video || !detectedFaces) return;
+    if (!canvas || !video || !detectedFace) return;
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -125,16 +112,43 @@ export default function OngoingSession() {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    detectedFaces.forEach((face) => {
-      ctx.beginPath();
-      ctx.strokeStyle = "lime";
-      ctx.lineWidth = 2;
-      ctx.rect(face.x, face.y, face.w, face.h);
-      ctx.stroke();
-    });
-  }, [detectedFaces]);
+    ctx.beginPath();
+    ctx.strokeStyle = "lime";
+    ctx.lineWidth = 2;
+    ctx.rect(detectedFace.x, detectedFace.y, detectedFace.w, detectedFace.h);
+    ctx.stroke();
 
-  //CALCULATES THE TIME LEFT ON MOUNT
+     
+  }, [detectedFace]);
+
+  // 💡 NEW: Gaze cloud on full screen canvas
+  useEffect(() => {
+    const canvas = gazeOverlayCanvasRef.current;
+    if (!canvas || !gazePoint) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (typeof gazePoint.horizontal === "number" && typeof gazePoint.vertical === "number") {
+      const sensitivity = 5;
+      const gazeX = sensitivity * gazePoint.horizontal * (canvas.width / 2) + (canvas.width / 2);
+      const gazeY = gazePoint.vertical * canvas.height;
+
+      const radius = 60;
+      const gradient = ctx.createRadialGradient(gazeX, gazeY, 0, gazeX, gazeY, radius);
+      gradient.addColorStop(0, "rgba(255, 0, 0, 0.6)");
+      gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+
+      ctx.beginPath();
+      ctx.fillStyle = gradient;
+      ctx.arc(gazeX, gazeY, radius, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+  }, [gazePoint]);
+
   useEffect(() => {
     if (!sessionInfo) return;
 
@@ -147,7 +161,6 @@ export default function OngoingSession() {
     setTimeLeft(diffInSeconds > 0 ? diffInSeconds : 0);
   }, [sessionInfo]);
 
-  //BASE METHOD TO END THE SESSION (TO BE USED BY END SESSION BUTTON OR NO TIME LEFT)
   const endSession = useCallback(async () => {
     try {
       const response = await fetch(`${BASE_URL}/session/end`, {
@@ -158,9 +171,7 @@ export default function OngoingSession() {
 
       if (!response.ok) throw new Error(`Session failed: ${response.status}`);
 
-
       if (socketRef.current) socketRef.current.close();
-
       setSessionEnded(true);
       localStorage.removeItem("sessionInfo");
 
@@ -171,7 +182,6 @@ export default function OngoingSession() {
     }
   }, [sessionInfo?.session_id]);
 
-  //TIMER COUNTDOWN
   useEffect(() => {
     if (sessionEnded || timeLeft === null) return;
 
@@ -190,13 +200,11 @@ export default function OngoingSession() {
     return () => clearInterval(interval);
   }, [sessionEnded, timeLeft, endSession]);
 
-  //END SESSION BUTTON HANDLER
   const handleSessionEnd = (e) => {
     e.preventDefault();
     endSession();
   };
 
-  //RENDER
   return (
     <div className="ongoingSessionContainer">
       <HomeButton onClick={() => navigate("/dashboard")} />
@@ -249,8 +257,14 @@ export default function OngoingSession() {
         )}
       </div>
 
-      {/* HIDDEN CANVAS USED TO EXTRACT FRAMES FOR BACKEND */}
+      {/* HIDDEN CANVAS FOR FRAME SENDING */}
       <canvas ref={canvasRef} style={{ display: "none" }} />
+
+      {/* NEW FULLSCREEN GAZE CANVAS */}
+      <canvas
+        ref={gazeOverlayCanvasRef}
+        className="gaze-overlay"
+      />
     </div>
   );
 }

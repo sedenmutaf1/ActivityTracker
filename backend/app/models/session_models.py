@@ -3,10 +3,11 @@ from typing import Dict
 
 # Session start request (start a new session)
 class SessionStartRequest(BaseModel):
-    user_id: str
     session_duration: int
 
-
+class SessionResumeRequest(BaseModel):
+    message:str
+    session_id:str
 
 # Session end request (ending the session)
 class SessionEndRequest(BaseModel):
@@ -18,3 +19,11 @@ class SessionReport(BaseModel):
     focus_time: int  # Time spent focused in seconds
     distraction_time: int  # Time spent distracted in seconds
     session_report: Dict[str, int]  # A dictionary of activity types (e.g., reading, browsing) and time spent
+
+
+class SessionResponse(BaseModel):
+    message: str
+    session_id: str
+    start_time: str
+    session_duration: str
+    status: str

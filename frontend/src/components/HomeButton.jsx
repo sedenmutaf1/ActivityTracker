@@ -1,4 +1,4 @@
-import { AiFillHome } from "react-icons/ai"; // or MdHome from material icons
+import { AiFillHome } from "react-icons/ai";
 import "./HomeButton.css"
 export default function HomeButton({ onClick }) {
   return (

@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import redis
-import uvicorn
 from backend.app.api import session, tracking, user, auth
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -22,13 +21,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # Include your routers
 app.include_router(session.router)
 app.include_router(tracking.router)
 app.include_router(user.router)
 app.include_router(auth.router)
 
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

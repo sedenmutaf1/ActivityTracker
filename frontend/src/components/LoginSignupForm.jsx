@@ -19,20 +19,19 @@ function LoginSignupForm() {
   // ----- Forgot Password fields -----
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
 
-  // Adjust to match your FastAPI server URL
   const BASE_URL = "http://localhost:8000";
 
   const navigate = useNavigate();
 
-  localStorage.clear();
+  
 
-  // Handle the login form submission
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials:"include",
         body: JSON.stringify({
           username: loginUsername,
           password: loginPassword,
@@ -48,7 +47,6 @@ function LoginSignupForm() {
       const data = await response.json();
       console.log("Login successful:", data);
       setMessage("Login successful");
-      localStorage.setItem("userInfo", JSON.stringify(data));
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
@@ -56,7 +54,7 @@ function LoginSignupForm() {
     }
   };
 
-  // Handle the signup form submission
+
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -67,7 +65,7 @@ function LoginSignupForm() {
           username: signupUsername,
           email: signupEmail,
           password: signupPassword,
-          created_at: new Date().toISOString(), // Provide current timestamp
+          created_at: new Date().toISOString(),
         }),
       });
 
@@ -80,14 +78,13 @@ function LoginSignupForm() {
       const data = await response.json();
       console.log("Signup successful:", data);
       setMessage("Signup successful");
-      setActiveTab("login");
+      navigate("/dashboard");
     } catch (err) {
       console.error("Signup error:", err);
       setMessage("Signup failed: " + err.message);
     }
   };
 
-  // Handle the forgot password form submission
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
@@ -121,10 +118,10 @@ function LoginSignupForm() {
 
       const timeout = setTimeout(() => {
         setShowPopup(false);
-        setMessage(""); // optional: clear message
-      }, 3000); // Auto-close after 3 seconds
+        setMessage("");
+      }, 3000);
 
-      return () => clearTimeout(timeout); // cleanup
+      return () => clearTimeout(timeout); 
     }
   }, [message]);
 

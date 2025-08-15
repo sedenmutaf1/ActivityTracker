@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import "./ResetPassword.css";
 
 function useQuery() {
@@ -17,6 +17,7 @@ function ResetPassword() {
 
   const query = useQuery();
   const token = query.get("token");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +41,7 @@ function ResetPassword() {
       if (response.ok) {
         setMessage("Password reset successful!");
         await new Promise(resolve => setTimeout(resolve, 3000));
-        navigate("/dashboard");
+        navigate("/login");
       } else {
         setMessage(data.message || "Something went wrong");
       }

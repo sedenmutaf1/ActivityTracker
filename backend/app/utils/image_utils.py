@@ -4,11 +4,11 @@ import numpy as np
 import cv2
 import mediapipe as mp
 
-# === Yüz kutusu için setup ===
+
 mp_face = mp.solutions.face_detection
 face_detector = mp_face.FaceDetection(model_selection=0, min_detection_confidence=0.5)
 
-# === Gaze için setup ===
+
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(
     max_num_faces=1,

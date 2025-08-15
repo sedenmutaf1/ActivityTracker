@@ -11,13 +11,18 @@ from backend.app.utils.hash_utils import hash_password, check_password
 from backend.app.models.user_models import ForgotPassword, ResetPassword
 from backend.app.utils.token_utils import generate_reset_token, hash_token
 from backend.app.utils.mailer import send_password_reset_email
+from backend.app.utils.jwt_utils import create_access_token
+from fastapi import Response
 
-router = APIRouter()
+router = APIRouter(prefix="/auth")
+ACCESS_TOKEN_EXPIRE_MINUTES = 15
 
-@router.post("/auth/register", status_code=status.HTTP_201_CREATED)
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register_user(
     request: UserRegister,
+    response: Response,
     redis_conn: redis.Redis = Depends(get_redis_connection)
+    
 ):
     user_id = str(uuid.uuid4())
     user_key = f"user:{request.username}"
@@ -48,17 +53,29 @@ async def register_user(
     redis_conn.set(user_key, json.dumps(user_data))
     redis_conn.set(email_key, request.username)
 
+
+    access_token = create_access_token({"sub": user_id})
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=False,
+        samesite="Strict",
+        max_age=60 * 15,
+        path="/"
+    )
+
+
     return {
         "message": "User registered successfully",
-        "user_id": user_id,
-        "username": request.username,
-        "email": request.email
     }
 
 
-@router.post("/auth/login", status_code=status.HTTP_200_OK)
+@router.post("/login", status_code=status.HTTP_200_OK)
 async def login_user(
     request: UserLogin,
+    response: Response,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
     """
@@ -82,15 +99,24 @@ async def login_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect password"
         )
+    
+    access_token = create_access_token({"sub": user_data["user_id"]})
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=False,
+        samesite="Strict",
+        max_age=60 * ACCESS_TOKEN_EXPIRE_MINUTES,
+        path="/"
+    )
 
     return {
         "message": "Login successful",
-        "user_id": user_data["user_id"],
-        "username": user_data["username"],
-        "email": user_data["email"]
     }
 
-@router.post("/auth/forgot-password", status_code=status.HTTP_200_OK)
+@router.post("/forgot-password", status_code=status.HTTP_200_OK)
 async def forgot_password(
     request: ForgotPassword,
     redis_conn: redis.Redis = Depends(get_redis_connection)
@@ -100,7 +126,7 @@ async def forgot_password(
     Returns a status code 200 and a JSON message on success.
     """
     email_key = f"email:{request.email.lower()}"
-    username = redis_conn.get(email_key);
+    username = redis_conn.get(email_key)
     if not username:
       raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -129,7 +155,7 @@ async def forgot_password(
         "email": user_data["email"]
     }
 
-@router.post("/auth/reset-password", status_code=status.HTTP_200_OK)
+@router.post("/reset-password", status_code=status.HTTP_200_OK)
 async def reset_password(
     request: ResetPassword,
     redis_conn: redis.Redis = Depends(get_redis_connection)

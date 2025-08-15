@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa5f0706-dc29-46ed-99cc-cc7eb0465707" name="Changes" comment="Active sessions are available to go back and continue. Websocket connection is established for video stream.">
-      <change beforePath="$PROJECT_DIR$/.idea/ActivityTracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ActivityTracker.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/utils/image_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/utils/image_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models/session_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models/session_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/models/user_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/models/user_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/utils/mailer.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/utils/mailer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/HomeButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/HomeButton.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginSignupForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginSignupForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OldSessions.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OldSessions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OldSessions.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/OngoingSession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ResetPassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ResetPassword.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +67,10 @@
     &quot;accountId&quot;: &quot;eddf3c53-22e3-4d88-9533-19e4e9c70c65&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -63,34 +78,37 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2v7kGtKN03UGXWDPXCOEoXgMmdB" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "FastAPI.ActivityTracker.executor": "Run",
-    "Python.face_detection.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "C:/Users/seden/AppData/Roaming/JetBrains/PyCharm2024.3/node/versions/22.14.0/node",
-    "nodejs_package_manager_path": "npm",
-    "npm.build.executor": "Run",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "settings.editor.splitter.proportion": "0.25356415",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PyCharm 2024.3.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;FastAPI.ActivityTracker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.face_detection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/ActivityTracker&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.25356415&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PyCharm 2024.3.5\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\seden\PycharmProjects\ActivityTracker\backend\app\api" />
@@ -98,7 +116,7 @@
       <recent name="C:\Users\seden\PycharmProjects\ActivityTracker\backend\app" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.face_detection">
+  <component name="RunManager" selected="npm.build">
     <configuration name="face_detection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ActivityTracker" />
       <option name="ENV_FILES" value="" />
@@ -152,7 +170,6 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="$PROJECT_DIR$/.venv/Scripts/python.exe" />
-      <option name="SDK_NAME" value="Python 3.13 (ActivityTracker)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -173,17 +190,15 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.face_detection" />
         <item itemvalue="npm.build" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
-        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
       </set>
     </attachedChunks>
   </component>
@@ -203,6 +218,13 @@
       <workItem from="1744224439126" duration="12233000" />
       <workItem from="1744655115309" duration="8599000" />
       <workItem from="1744702261517" duration="14575000" />
+      <workItem from="1754031280699" duration="1214000" />
+      <workItem from="1754046281128" duration="2271000" />
+      <workItem from="1754048627332" duration="283000" />
+      <workItem from="1754049853446" duration="1289000" />
+      <workItem from="1754633086272" duration="36000" />
+      <workItem from="1754901263180" duration="2000" />
+      <workItem from="1755087629354" duration="9000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />

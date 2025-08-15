@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import HomeButton from "./HomeButton";
+import LogoutButton from "./LogoutButton";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
-function getUser() {
-  const storedUser = localStorage.getItem("userInfo");
-  return storedUser ? JSON.parse(storedUser) : null;
-}
+
 
 export default function Dashboard() {
 
   const navigate = useNavigate();
-  const user = getUser();
-
+  
+  const [user, setUser] = useState(null);
   const [showDurationInput, setShowDurationInput] = useState(false);
   const [sessionDuration, setSessionDuration] = useState("");
 
@@ -22,14 +20,33 @@ export default function Dashboard() {
     setShowDurationInput(true);
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/me`, {
+          credentials: "include",
+        });
+
+        if (!response.ok) throw new Error("User not authenticated");
+
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
+        console.error("User fetch failed:", err);
+        navigate("/"); 
+      }
+    };
+    fetchUser();
+  }, [navigate]);
+
   const handleSessionStart = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(`${BASE_URL}/session/start`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials:"include",
         body: JSON.stringify({
-          user_id: user.user_id,
           session_duration: parseInt(sessionDuration, 10),
         }),
       });
@@ -40,7 +57,6 @@ export default function Dashboard() {
 
       const data = await response.json();
       console.log("Session successful:", data);
-      localStorage.setItem("sessionInfo", JSON.stringify(data));
       navigate("/session");
 
     } catch (err) {
@@ -48,9 +64,18 @@ export default function Dashboard() {
     }
   };
 
+  function handleLogout() {
+  
+    document.cookie = "access_token=; Max-Age=0";
+    navigate("/");
+  }
+
   return (
     <div className="dashboardContainer">
       <HomeButton onClick={() => navigate("/dashboard")} />
+      <div className="topRight">
+      <LogoutButton onClick={handleLogout} />
+      </div>
       <div className="dashboardCard">
         <div className="userInfoCard">
           <img src="/img.png" alt="User Icon" className="userIcon" />

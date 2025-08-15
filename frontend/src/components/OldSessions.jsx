@@ -2,19 +2,37 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OldSessions.css";
 import HomeButton from "./HomeButton";
+import LogoutButton  from "./LogoutButton";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
-function getUser() {
-  const userData = localStorage.getItem("userInfo");
-  return userData ? JSON.parse(userData) : null;
-}
 
 export default function OldSessions() {
+
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const user = getUser();
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/me`, {
+          credentials: "include", 
+        });
+
+        if (!response.ok) throw new Error("User not authenticated");
+
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
+        console.error("User fetch failed:", err);
+        navigate(""); 
+      }
+    };
+
+    fetchUser();
+  }, [navigate]);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -32,11 +50,20 @@ export default function OldSessions() {
     if (user) {
       fetchSessions();
     }
-  }, []);
+  }, [user]);
+
+  function handleLogout() {
+  
+    document.cookie = "access_token=; Max-Age=0";
+    navigate("/");
+  }
 
   return (
     <div className="oldSessionsContainer">
       <HomeButton onClick={() => navigate("/dashboard")} />
+      <div className="topRight">
+        <LogoutButton onClick={handleLogout} />
+      </div>
       <div className="oldSessionsCard">
         <h1>Your Sessions</h1>
         {loading ? (
@@ -59,8 +86,9 @@ export default function OldSessions() {
                   <button
                     className="resumeButton"
                     onClick={() => {
-                      localStorage.setItem("sessionInfo", JSON.stringify(session));
-                      navigate("/session");
+                      
+                      navigate(`/session/${session.session_id}`);
+                
                     }
                   }
                   >

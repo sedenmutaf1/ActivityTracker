@@ -49,6 +49,13 @@
   border-radius: 12px;
 }
 
+.topRight {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
 
 canvas.video-overlay {
   position: absolute;

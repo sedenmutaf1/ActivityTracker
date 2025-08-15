@@ -6,25 +6,35 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException, Depends, status
 import redis
-from backend.app.models.session_models import SessionEndRequest,SessionStartRequest,SessionReport
+from backend.app.models.session_models import SessionEndRequest,SessionStartRequest,SessionReport, SessionResumeRequest, SessionResponse
 from backend.app.utils.redis_utils import get_redis_connection
+from backend.app.utils.jwt_utils import jwt_decode
+from fastapi import Request
 
 router = APIRouter()
 
 @router.post("/session/start", status_code=status.HTTP_201_CREATED)
 async def start_session(
     request: SessionStartRequest,
+    response: SessionResponse,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
     """
     Start a new session for a user.
     Returns HTTP 201 and session details if successful.
     """
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    payload = jwt_decode(token)
+    user_id = payload.get("sub")
+
     session_id = str(uuid.uuid4())
     start_time = datetime.now(timezone.utc).isoformat()
 
     session_data = {
-        "user_id": request.user_id,
+        "user_id": user_id,
         "session_duration": request.session_duration,
         "start_time": start_time,
         "status": "active",
@@ -37,7 +47,6 @@ async def start_session(
     return {
         "message": "Session started successfully",
         "session_id": session_id,
-        "user_id": request.user_id,
         "start_time": start_time,
         "session_duration": request.session_duration,
         "status": "active"
@@ -87,13 +96,13 @@ async def end_session(
 
 @router.get("/session/{session_id}", status_code=status.HTTP_200_OK)
 async def get_session(
-    session_id: str,
+    request: SessionResumeRequest,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
     """
     Retrieve a session by its ID.
     """
-    session_key = f"session:{session_id}"
+    session_key = f"session:{request.session_id}"
     raw_data = redis_conn.get(session_key)
 
     if not raw_data:
@@ -103,44 +112,37 @@ async def get_session(
         )
 
     session_data = json.loads(raw_data.decode("utf-8"))
+
     return {
-        "message": "Session retrieved successfully",
-        "data": session_data
+        "message": "Session started successfully",
+        "session_id": request.session_id,
+        "start_time": session_data["start_time"],
+        "session_duration": session_data["session_duration"],
+        "status": session_data["status"]
     }
+
 
 
 @router.get("/sessions", status_code=status.HTTP_200_OK)
-async def get_sessions(
-    redis_conn: redis.Redis = Depends(get_redis_connection)
-):
-    """
-    Retrieve all sessions (active and completed).
-    """
-    keys = redis_conn.keys("session:*")
-    sessions = []
-
-    for key in keys:
-        raw_data = redis_conn.get(key)
-        if raw_data:
-            sessions.append(json.loads(raw_data.decode("utf-8")))
-
-    return {
-        "message": "Sessions retrieved successfully",
-        "data": sessions
-    }
-
-
-@router.get("/sessions/user/{user_id}", status_code=status.HTTP_200_OK)
 async def get_user_sessions(
-    user_id: str,
+    request: Request,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
     """
     Retrieve all sessions belonging to a specific user.
     Returns sessions in the same format as /session/start.
     """
+    token = request.cookies.get("access_token")
+
+    if not token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    payload = jwt_decode(token)
+    user_id = payload.get("sub")
+
     keys = redis_conn.keys("session:*")
     user_sessions = []
+
 
     for key in keys:
         raw_data = redis_conn.get(key)

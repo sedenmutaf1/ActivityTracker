@@ -10,6 +10,13 @@
   box-sizing: border-box;
 }
 
+.topRight {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
 .oldSessionsCard {
   background: #fff;
   padding: 2rem;

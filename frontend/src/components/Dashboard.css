@@ -11,6 +11,13 @@
   animation: fadeIn 1s ease-in;
 }
 
+.topRight {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
 .dashboardCard {
   background-color: #fff;
   border-radius: 8px;

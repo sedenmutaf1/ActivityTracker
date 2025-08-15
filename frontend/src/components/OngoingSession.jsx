@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback, useRef} from "react";
+import { useNavigate, useParams  } from "react-router-dom";
 import { useUserMedia } from "./useUserMedia";
 import "./OngoingSession.css";
 import HomeButton from "./HomeButton";
+import LogoutButton  from "./LogoutButton";
 
 const BASE_URL = "http://127.0.0.1:8000";
 
-function getSessionInfo() {
-  const sessionInfo = localStorage.getItem("sessionInfo");
-  return sessionInfo ? JSON.parse(sessionInfo) : null;
-}
-
 export default function OngoingSession() {
+  const { sessionId } = useParams();
+  const [sessionInfo, setSessionInfo] = useState(null);
   const [timeLeft, setTimeLeft] = useState(null);
   const [sessionEnded, setSessionEnded] = useState(false);
   const videoRef = useRef(null);
@@ -19,7 +17,6 @@ export default function OngoingSession() {
   const overlayCanvasRef = useRef(null); // Face box overlay
   const gazeOverlayCanvasRef = useRef(null); // NEW: Fullscreen gaze overlay
   const navigate = useNavigate();
-  const sessionInfo = getSessionInfo();
   const { stream, error } = useUserMedia({ video: true });
   const socketRef = useRef(null);
   const [detectedFace, setDetectedFace] = useState();
@@ -31,6 +28,31 @@ export default function OngoingSession() {
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `${mins}:${secs}`;
   };
+
+   useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/session/${sessionId}`, {
+          credentials: "include", // <-- JWT in cookie will be sent
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch session");
+        }
+
+        const result = await response.json();
+        setSessionInfo(result.data); // Adjust based on your response schema
+      } catch (error) {
+        console.error("Session fetch error:", error);
+        setSessionInfo(null); // Or redirect / show error
+      }
+    };
+
+    if (sessionId) {
+      fetchSession();
+    }
+  }, [sessionId]);
+
 
   useEffect(() => {
     if (!sessionInfo?.session_id) return;
@@ -173,7 +195,6 @@ export default function OngoingSession() {
 
       if (socketRef.current) socketRef.current.close();
       setSessionEnded(true);
-      localStorage.removeItem("sessionInfo");
 
       const data = await response.json();
       console.log("Session successful:", data);
@@ -205,9 +226,17 @@ export default function OngoingSession() {
     endSession();
   };
 
-  return (
+  function handleLogout() {
+    document.cookie = "access_token=; Max-Age=0";
+    navigate("/");
+  }
+
+  return sessionInfo ? (
     <div className="ongoingSessionContainer">
       <HomeButton onClick={() => navigate("/dashboard")} />
+      <div className="topRight">
+        <LogoutButton onClick={handleLogout} />
+      </div>
       <div className="ongoingSessionCard">
         {!sessionEnded ? (
           <>
@@ -267,5 +296,7 @@ export default function OngoingSession() {
         className="gaze-overlay"
       />
     </div>
+  ) : (
+    <p>Session not found</p>
   );
 }

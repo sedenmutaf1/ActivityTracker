@@ -6,35 +6,34 @@ import bcrypt
 import redis
 
 from fastapi import APIRouter, HTTPException, Depends, status
-from backend.app.models.user_models import UserRegister, UserLogin
+from backend.app.models.user_models import UserRegister, UserLogin, UserInfoRequest
 from backend.app.utils.redis_utils import get_redis_connection
+from backend.app.utils.jwt_utils import jwt_decode
+from fastapi import Request
 
 router = APIRouter()
 
-
-@router.get("/users/{username}", status_code=status.HTTP_200_OK)
-async def get_user(
-    username: str,
+@router.get("/me")
+def get_me(
+    request: Request,
     redis_conn: redis.Redis = Depends(get_redis_connection)
 ):
-    """
-    Retrieve user information by username from Redis.
-    Returns a status code 200 and a JSON message on success.
-    """
-    user_key = f"user:{username}"
+    
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
-    user_data_raw = redis_conn.get(user_key)
-    if not user_data_raw:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
+    try:
+        payload = jwt_decode(token)
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    user_id = payload.get("sub")
 
-    user_data = json.loads(user_data_raw.decode("utf-8"))
+    # Lookup user data (assuming you store by username)
+    for key in redis_conn.scan_iter("user:*"):
+        user_data = json.loads(redis_conn.get(key))
+        if user_data["user_id"] == user_id:
+            return {"username": user_data["username"], "user_id": user_id}
 
-    return {
-        "message": "User retrieved successfully",
-        "user_id": user_data["user_id"],
-        "username": user_data["username"],
-        "email": user_data["email"]
-    }
+    raise HTTPException(status_code=404, detail="User not found")
